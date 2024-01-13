@@ -98,6 +98,8 @@ const loginUser = asyncHandler(async (req, res) => {
         $or: [{ username }, { email }]
     })
 
+    console.log(user)
+
 
     if (!user) {
         throw new ApiError(404, 'User does not exist')
@@ -114,7 +116,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id)
 
     // send cookies
-    const loggedInUser = await User.findById(user._id).select('-password -refreshToken')
+    const loggedInUser = await User.findById(user._id).select('-password -refreshToken');
 
     const options = {
         httpOnly: true, // by setting httpOnly and secure to true, the cookies can now be modified only on the server and not on the frontend
